@@ -80,16 +80,31 @@ itemList* newItem(int id,char name[],char type[],int damage,int resistance,int r
 
 }
 
-//init the itemList Bug sa affiche uniquement le premier et le dernier (probleme de next je ne vois pas encore comment résoudre cela)
+//init the itemList 
 itemList* initItemList(){
-
+    itemList* tmp;
     itemList* head = newItem(1,"Epee en bois","Arme",1,-1,-1,10);
-
+    tmp= head;
     head->next = newItem(2,"Pioche en bois","Outil",-1,-1,-1,10);
+    tmp=tmp->next;
+    tmp->next = newItem(3,"Serpe en bois","Outil",-1,-1,-1,10);
+    tmp=tmp->next;
+    tmp->next= newItem(4,"Hache en bois","Outil",-1,-1,-1,10);
+    tmp=tmp->next;
+    tmp->next= newItem(5,"Sapin","Ressource de craft",-1,-1,-1,-1);
+    tmp=tmp->next;
+    tmp->next= newItem(6,"Pierre","Ressource de craft",-1,-1,-1,-1);
+    tmp=tmp->next;
+    tmp->next= newItem(7,"Herbe","Ressource de craft",-1,-1,-1,-1);
+    tmp=tmp->next;
+    tmp->next= newItem(8,"Epee en pierre","Arme",2,-1,-1,10);
+    tmp=tmp->next;
+    tmp->next= newItem(9,"Lance en pierre","Arme",3,-1,-1,8);
+    tmp=tmp->next;
+    tmp->next= newItem(10,"Marteau en pierre","Arme",4,-1,-1,5);
+    tmp=tmp->next;
+    tmp->next= newItem(11,"Plastron en pierre","Armure",-1,10,-1,-1);
 
-    head->next = newItem(3,"Serpe en bois","Outil",-1,-1,-1,10);
-
-    head->next = newItem(4,"Hache en bois","Outil",-1,-1,-1,10);
     return head;
 };
 
@@ -117,7 +132,7 @@ itemList* printItemList(itemList* item){
             printf("\n");
         }
         else if(strcmp(item->type,"Armure")==0){
-            printf("\ncet item permet de resister a %d% %c de degat maximum\n",item->resistance,'%');
+            printf("\ncet item permet de resister a %d %% de degat maximum\n",item->resistance);
         }
         else if(strcmp(item->type,"Soin")==0){
             printf("\ncet item permet de soigner un maximum de %d de HP\n",item->restoring);
@@ -175,7 +190,6 @@ int main() {
 
 
     printf("le level de ce type est : %d \n ",hero->level);
-
 
 
 
