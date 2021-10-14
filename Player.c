@@ -158,7 +158,7 @@ itemList* initItemList(){
 //print the item list
 itemList* printItemList(itemList* item){
     while (item!=NULL){
-        printf("-------------------------------------------------------------------\n");
+        printf("\n-------------------------------------------------------------------\n\n");
         printf("cet item est le numero %d de la liste \n",item->id);
         printf("cet item s'appelle: ");
         for (int i = 0; item->name[i]!='\0' ; ++i) {
@@ -190,6 +190,50 @@ itemList* printItemList(itemList* item){
         item=item->next;
 
     }
+    printf("\n-------------------------------------------------------------------\n\n");
+}
+
+//print the item list filtered by a category
+itemList* printCategoryItem(itemList* item,char category[]){
+    int compteur=0;
+    while (item!=NULL){
+        if(strcmp(item->type,category)==0){
+            printf("\n-------------------------------------------------------------------\n\n");
+            printf("cet item est le numero %d de la liste \n",item->id);
+            printf("cet item s'appelle: ");
+            for (int i = 0; item->name[i]!='\0' ; ++i) {
+                printf("%c",item->name[i]);
+            }
+            printf("\ncet item est du type: ");
+            for (int i = 0; item->type[i]!='\0' ; ++i) {
+                printf("%c",item->type[i]);
+            }
+            if (strcmp(item->type,"Arme")==0){
+                printf("\ncet item fait %d de degat\n",item->damage);
+                printf("cet item a %d de durabilite maximum\n",item->durability);
+            }
+            else if(strcmp(item->type,"Outil")==0){
+                printf("\ncet item a %d de durabilite maximum\n",item->durability);
+            }
+            else if(strcmp(item->type,"Ressource de craft")==0){
+                printf("\n");
+            }
+            else if(strcmp(item->type,"Armure")==0){
+                printf("\ncet item permet de resister a %d %% de degat maximum\n",item->resistance);
+            }
+            else if(strcmp(item->type,"Soin")==0){
+                printf("\ncet item permet de soigner un maximum de %d de HP\n",item->restoring);
+            }
+            else{
+                printf("\nPas de type trouver a cette item\n");
+            }
+        }
+        compteur+=1;
+        item=item->next;
+    }
+    printf("il y a donc %d de %s",compteur,category);
+    printf("\n-------------------------------------------------------------------\n\n");
+
 }
 
 /////////////////////////////////////////////////
@@ -209,30 +253,53 @@ Player* initPlayer(){
 }
 
 //modify the armor of the Player
-Player modifyArmor(Player* Hero,int idArmor){
-    Hero->currentArmor=idArmor;
-    switch (idArmor) {
-        case 0: Hero->armorName[0]='\0';break;
-        //case 1: for(int j;i)
-    }
+Player modifyArmor(Player* Hero,int idArmor,itemList* item){
+
+        if(idArmor==0){
+            Hero->currentArmor=idArmor;
+            Hero->armorName[0]='\0';
+        }
+        else{
+            int test;
+            while (item!=NULL ||  test!=1){
+
+                if(idArmor==item->id){
+                    int i;
+                    Hero->currentArmor=idArmor;
+                    for (i = 0; item->name[i]!='\0' ; ++i) {
+                        Hero->armorName[i]=item->name[i];
+                    }
+                    Hero->armorName[i]=item->name[i];
+                    test=1;
+                }
+                item=item->next;
+            }
+        }
+
+
 }
+
 
 //print the actual armor of the Player
 void printArmor(Player* hero){
     if (hero->currentArmor==0){
-        printf("Le glandu la il a pas d'armure  bahahaha");
+        printf("Le glandu la il a pas d'armure  bahahaha\n");
     }
     else{
-        printf("LE PREUX CHEVALIER A CETTE ARMURE:");
+        printf("LE PREUX CHEVALIER A CETTE ARMURE: ");
         for (int i = 0; hero->armorName[i]!='\0'; ++i) {
             printf("%c",hero->armorName[i]);
         }
+        printf("\n");
     }
 };
 int main() {
     itemList* item=initItemList();
-    printItemList(item);
     Player* hero = initPlayer();
+    //printItemList(item);
+    //printCategoryItem(item,"Arme");
+    printArmor(hero);
+    modifyArmor(hero,11,item);
     printArmor(hero);
 
 
